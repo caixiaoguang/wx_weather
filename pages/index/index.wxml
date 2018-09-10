@@ -1,4 +1,65 @@
-<!--index.wxml-->
 <view class="container">
+  <!-- 背景操作 -->
+  <view class='bcg'>
+    <image class='bcg' src='../../img/accomplishment-adventure-clear-sky-585825.jpg' mode='aspectFill'></image>
+  </view>
 
+  <view class='content'>
+    <!-- 个人信息 -->
+    <view class='avatarInfo'>
+      <open-data class='avatar' type='userAvatarUrl'></open-data>
+      <open-data class='name' type='userNickName'></open-data>
+    </view>
+
+    <!-- 天气相关 -->
+    <view class='' wx:if="{{!showOpenSettingBtn}}">
+      <!-- 当天天气信息 -->
+      <view class='info'>
+        <view class='city'>
+          <view class='name'>{{cityDatas.originalData.results[0].currentCity||'定位中'}}</view>
+          <text class='time'>{{cityDatas.updateTimeFormat}} 更新</text>
+        </view>
+        <!-- 天气描述 -->
+        <view class='message'>{{message}}</view>
+        <view class='temp tempNum'>{{cityDatas.currentTemp}}
+          <text>°</text>
+        </view>
+        <view class='weather'>{{cityDatas.originalData.results[0].weather_data[0].weather +' '+ cityDatas.temperature|| '--'}}</view>
+        <!-- pm信息 -->
+        <view class='pm'>
+          <text>{{cityDatas.pm.val + ' '+ cityDatas.pm.desc}}</text>
+        </view>
+      </view>
+
+      <!-- 天气预报 -->
+      <view class='guide'>
+        <view class='item' wx:for='{{cityDatas.originalData.results[0].weather_data}}' wx:key='{{item.index}}'>
+          <view class='date i'>{{index===0?'今天':item.date}}<image src='{{item.nightPictureUrl}}'></image></view>
+          <view class='temperature i'>{{item.temperature}}</view>
+          <view class='weather i'>{{item.weather}}</view>
+          <view class='wind i'>{{item.wind}}</view>
+        </view>
+      </view>
+
+      <!-- 生活指数 -->
+      <view class='livingIndex'>
+        <view class='item' wx:for='{{cityDatas.originalData.results[0].index}}' wx:key='{{index}}'>
+          <image class='icon' src='{{icons[index]}}'></image>
+          <view class='right'>
+            <view class='key'>{{item.tipt+' ' + item.zs}}</view>
+            <view class='value'>{{item.des}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class='footer'>
+      天气信息来源：百度地图API
+    </view>
+
+    <view class='openSettingBtn' wx:if='{{showOpenSettingBtn}}'>
+      <button open-type='openSetting'>允许获取位置权限</button>
+    </view>
+
+  </view>
 </view>
