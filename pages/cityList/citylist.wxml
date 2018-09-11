@@ -1,0 +1,25 @@
+<view class='container'>
+  <view class='wrapper'>
+    <!-- 搜索栏 -->
+    <view class='search'>
+      <view class='inner'>
+        <image src='../../img/search_grey.png'></image>
+        <input placeholder='搜索城市' maxlength='20' value='{{inputText}}' confirm-type='search' bindinput='inputFilter' bindconfirm=''></input>
+      </view>
+      <text class='cancel' catchtap='cancel'>清空</text>
+    </view>
+  </view>
+
+  <!-- 城市列表 -->
+  <view class='bottom'>
+    <view wx:for='{{showItems}}' wx:key='{{index}}'>
+      <view class='key'>{{index}}</view>
+      <view class='values'>
+        <view class='value' hover-class='hover' wx:for='{{item}}' wx:key='{{index}}' catchtap='choose' data-item='{{item}}'>{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 缺省信息 -->
+  <view class='empty' wx:if='{{!showItems}}'>暂无城市</view>
+</view>

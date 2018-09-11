@@ -1,15 +1,14 @@
 //app.js
 App({
-  onLaunch() {
-    wx.getSystemInfo({
-      success: function(res) {
-        console.log(res)
-        this.globalData.systemInfo = res
-      },
-    })
-  },
+  // onLaunch() {
+  //   wx.getSystemInfo({
+  //     success: res => {
+  //       this.globalData.systemInfo = res
+  //     }
+  //   })
+  // },
   globalData: {
-    systemInfo: {},
+    // systemInfo: {},
     ak: 'GAHrbs2zTOchXP2c3O8SYOP2MqVM7cbk'
   },
   setGeocoderUrl(address) {

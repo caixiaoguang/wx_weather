@@ -1,7 +1,7 @@
 <view class="container">
   <!-- 背景操作 -->
   <view class='bcg'>
-    <image class='bcg' src='../../img/accomplishment-adventure-clear-sky-585825.jpg' mode='aspectFill'></image>
+    <image class='bcg' src='../../img/asphalt-blue-sky-clouds-490411.jpg' mode='aspectFill'></image>
   </view>
 
   <view class='content'>
@@ -16,8 +16,10 @@
       <!-- 当天天气信息 -->
       <view class='info'>
         <view class='city'>
-          <view class='name'>{{cityDatas.originalData.results[0].currentCity||'定位中'}}</view>
-          <text class='time'>{{cityDatas.updateTimeFormat}} 更新</text>
+          <view class='name' bindtap='chooseCity'>{{cityDatas.originalData.results[0].currentCity||'定位中'}}
+              <image src='../../img/location_grey.png'></image>
+          </view>
+          <text class='time'>{{cityDatas.updateTimeFormat || '暂未'}} 更新</text>
         </view>
         <!-- 天气描述 -->
         <view class='message'>{{message}}</view>
@@ -27,7 +29,7 @@
         <view class='weather'>{{cityDatas.originalData.results[0].weather_data[0].weather +' '+ cityDatas.temperature|| '--'}}</view>
         <!-- pm信息 -->
         <view class='pm'>
-          <text>{{cityDatas.pm.val + ' '+ cityDatas.pm.desc}}</text>
+          <text>{{cityDatas.pm.val + ' '+ cityDatas.pm.desc||''}}</text>
         </view>
       </view>
 

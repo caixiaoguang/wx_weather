@@ -1,1 +1,6 @@
-{}
+{
+    "navigationBarBackgroundColor": "#01a1ff",
+    "navigationBarTitleText": "咸鱼天气",
+    "enablePullDownRefresh": true,
+    "navigationBarTextStyle": "#fff"
+}

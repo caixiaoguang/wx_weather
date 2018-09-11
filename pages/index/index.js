@@ -15,9 +15,11 @@ Page({
     icons: [''],
     //用来清空input内容
     // searchText: '',
-    pos: {},
+    pos: '',
     showOpenSettingBtn: false,
     icons: ['/img/clothing.png', '/img/carwashing.png', '/img/pill.png', '/img/running.png', '/img/sun.png'],
+    searchCity: '',
+    cityChanged: false
 
   },
 
@@ -75,7 +77,7 @@ Page({
       ak: app.globalData.ak
     })
     Bmap.weather({
-      location: params.location,
+      location: params,
       success: this.success,
       fail: this.fail,
     })
@@ -83,7 +85,9 @@ Page({
 
   //天气获取成功回调
   success(data) {
-    console.log(data)
+    this.setData({
+      showOpenSettingBtn: false,
+    })
     wx.stopPullDownRefresh()
     //获取当前时间
     let now = new Date()
@@ -107,13 +111,13 @@ Page({
 
   //天气获取失败回调
   fail(res) {
-    console.log(res)
     wx.stopPullDownRefresh()
     let errMsg = res.errMsg || ''
     //如果用户拒绝地理位置权限
     if (errMsg.indexOf('deny') !== -1 || errMsg.indexOf('denied') !== -1) {
       wx.showToast({
         title: '需要开启地理位置权限',
+        icon: 'none',
         duration: 2500,
         success: res => {
           this.setData({
@@ -130,7 +134,7 @@ Page({
   },
 
   //地理位置编码
-  geocoder(address,succcessCall) {
+  geocoder(address) {
     wx.request({
       url: app.setGeocoderUrl(address),
       // 请求成功
@@ -138,14 +142,17 @@ Page({
         let data = res.data || {};
         if (!data.status) {
           let location = (data.result || {}).location || {}
-          succcessCall && succcessCall(location)
+          this.setData({
+            pos: location.lng + ',' + location.lat
+          })
+          this.init(this.data.pos)
         }
       },
       //请求失败
       fail: res => {
         wx.showToast({
           title: res.errMsg || '网络不给力，请稍后再试',
-          icon:'none'
+          icon: 'none'
         })
       }
     })
@@ -153,11 +160,67 @@ Page({
 
   //获取本地缓存中的天气信息
   getCityDatas() {
-    wx.getStorage({
+    let cityDatas = wx.getStorage({
       key: 'cityDatas',
-      success: function(res) {
+      success: res => {
         this.setData({
-          cityDatas: res.cityDatas
+          cityDatas: res.data
+        })
+      }
+    })
+  },
+
+  //选择要显示哪个城市
+  getCity() {
+    wx.getStorage({
+      key: 'pos',
+      success: res => {
+        //如果本地有pos
+        this.init(res.data)
+      },
+      fail: err => {
+        this.init()
+      }
+    })
+  },
+
+
+  //打开选择城市页面
+  chooseCity() {
+    wx.navigateTo({
+      url: '/pages/cityList/citylist',
+    })
+  },
+
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    if (this.data.cityChanged) {
+      this.geocoder(this.data.searchCity)
+    }
+    this.getCityDatas()
+    // this.init(this.data.pos)
+    this.setData({
+      message: messages.messages()
+    })
+  },
+
+  onHide() {
+    wx.setStorage({
+      key: 'pos',
+      data: this.data.pos,
+    })
+  },
+
+  onLoad() {
+    this.getCity()
+    wx.getStorage({
+      key: 'pos',
+      success: res => {
+        this.setData({
+          pos: res.data
         })
       },
     })
@@ -165,55 +228,10 @@ Page({
 
 
   /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    this.init({})
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    this.getCityDatas()
-    this.setData({
-      message: messages.messages()
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    this.init({})
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
+    this.init(this.data.pos)
   },
 
   /**

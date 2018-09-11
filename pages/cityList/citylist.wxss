@@ -1,0 +1,87 @@
+/* pages/cityList/citylist.wxss */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20rpx;
+}
+
+.wrapper {
+  font-size: 0;
+  background: #fff;
+  padding: 30rpx;
+  height: 128rpx;
+  box-sizing: border-box;
+}
+
+.wrapper .search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.wrapper .search image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+}
+
+.inner {
+  background: #f4f6f9;
+  font-size: 30rpx;
+  padding: 16rpx 0 16rpx 20rpx;
+  box-sizing: border-box;
+  border-radius: 8rpx;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.inner input {
+  background-color: #f4f6f9;
+  font-size: 30rpx;
+  height: 38rpx;
+  min-height: 38rpx;
+  line-height: 38rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cancel {
+  font-size: 30rpx;
+  color: #666;
+  display: inline-block;
+  width: 2.5em;
+  text-align: right;
+}
+
+.bottom{
+  background: #fff;
+  color: #333;
+  font-size: 32rpx;
+}
+.bottom .key{
+  background: #f4f6f9;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+}
+.bottom .values .value{
+  border-bottom: 1rpx solid #efefef;
+  height: 104rpx;
+  line-height: 104rpx;
+  padding: 0 30rpx;
+}
+
+.hover{
+  background: #f4f6f9;
+}
+
+.empty{
+  margin-top: 100rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #666;
+}
